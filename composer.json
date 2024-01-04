@@ -14,10 +14,10 @@
     },
     "autoload": {
         "psr-4": {
-            "ExamplePlugin\\": "src"
+            "BookStorePlugin\\": "src"
         }
     },
     "require": {
-        "veronalabs/rabbit": "^1.4"
+        "veronalabs/rabbit": "dev-master"
     }
 }
