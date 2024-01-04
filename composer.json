@@ -18,6 +18,7 @@
         }
     },
     "require": {
-        "veronalabs/rabbit": "dev-master"
+        "veronalabs/rabbit": "dev-master",
+        "illuminate/database": "^8.83"
     }
 }
