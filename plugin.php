@@ -3,11 +3,11 @@
 /**
  * Plugin Name:     Book Store Plugin
  * Plugin URI:      https://www.veronalabs.com
- * Plugin Prefix:   BOOK_STORE_PLUGIN
+ * Plugin Prefix:   BOOKSTORE_PLUGIN
  * Description:     BookStore WordPress Plugin Based on Rabbit Framework!
  * Author:          VeronaLabs
  * Author URI:      https://veronalabs.com
- * Text Domain:     book-store-plugin
+ * Text Domain:     bookstore-plugin
  * Domain Path:     /languages
  * Version:         0.1
  */
@@ -61,7 +61,15 @@ class BookStorePluginInit extends Singleton {
              * Activation hooks
              */
             $this->application->onActivation(function () {
-                // Create tables or something else
+                $database = $this->application->get('database');
+                if(!$database->schema()->hasTable('books_info')) {
+                    $database->schema()->create('books_info', function ($table) {
+                        $table->increments('id');
+                        $table->foreignId('post_id')->constrained();
+                        $table->string('isbn');
+                        $table->timestamps();
+                    });
+                }
             });
 
             /**
@@ -74,26 +82,12 @@ class BookStorePluginInit extends Singleton {
             $this->application->boot(function (Plugin $plugin) {
                 $plugin->loadPluginTextDomain();
 
-                // load template
-                // $this->application->template('plugin-template.php', ['foo' => 'bar']);
+                // Import functions
+                require_once __DIR__ . "/src/functions.php";
 
-                // global $capsule;
-
-                $database = $this->application->get('database');
-                // var_dump($database->schema()->create('books_info'));
-                // phpinfo();
-                
-                $database->schema()->create('books_info', function ($table) {
-                    $table->increments('id');
-                    $table->foreignId('post_id')->constrained();
-                    $table->string('isbn');
-                    $table->timestamps();
-                });
-                
-                ///...
-
+                // var_dump($this->application->template('test', ['foo' => 'bar']));
             });
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             /**
              * Print the exception message to admin notice area
              */
