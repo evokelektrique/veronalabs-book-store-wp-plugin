@@ -1,14 +1,15 @@
 <?php
+
 /**
- * Plugin Name:     Example Plugin
+ * Plugin Name:     Book Store Plugin
  * Plugin URI:      https://www.veronalabs.com
- * Plugin Prefix:   EXAMPLE_PLUGIN
- * Description:     Example WordPress Plugin Based on Rabbit Framework!
+ * Plugin Prefix:   BOOK_STORE_PLUGIN
+ * Description:     BookStore WordPress Plugin Based on Rabbit Framework!
  * Author:          VeronaLabs
  * Author URI:      https://veronalabs.com
- * Text Domain:     example-plugin
+ * Text Domain:     book-store-plugin
  * Domain Path:     /languages
- * Version:         1.0
+ * Version:         0.1
  */
 
 use Rabbit\Application;
@@ -26,27 +27,24 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 }
 
 /**
- * Class ExamplePluginInit
- * @package ExamplePluginInit
+ * Class BookStorePluginInit
+ * @package BookStorePluginInit
  */
-class ExamplePluginInit extends Singleton
-{
+class BookStorePluginInit extends Singleton {
     /**
      * @var Container
      */
     private $application;
 
     /**
-     * ExamplePluginInit constructor.
+     * BookStorePluginInit constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->application = Application::get()->loadPlugin(__DIR__, __FILE__, 'config');
         $this->init();
     }
 
-    public function init()
-    {
+    public function init() {
         try {
 
             /**
@@ -77,12 +75,24 @@ class ExamplePluginInit extends Singleton
                 $plugin->loadPluginTextDomain();
 
                 // load template
-                $this->application->template('plugin-template.php', ['foo' => 'bar']);
+                // $this->application->template('plugin-template.php', ['foo' => 'bar']);
 
+                // global $capsule;
+
+                $database = $this->application->get('database');
+                // var_dump($database->schema()->create('books_info'));
+                // phpinfo();
+                
+                $database->schema()->create('books_info', function ($table) {
+                    $table->increments('id');
+                    $table->foreignId('post_id')->constrained();
+                    $table->string('isbn');
+                    $table->timestamps();
+                });
+                
                 ///...
 
             });
-
         } catch (Exception $e) {
             /**
              * Print the exception message to admin notice area
@@ -105,20 +115,18 @@ class ExamplePluginInit extends Singleton
     /**
      * @return Container
      */
-    public function getApplication()
-    {
+    public function getApplication() {
         return $this->application;
     }
 }
 
 /**
- * Returns the main instance of ExamplePluginInit.
+ * Returns the main instance of BookStorePluginInit.
  *
- * @return ExamplePluginInit
+ * @return BookStorePluginInit
  */
-function examplePlugin()
-{
-    return ExamplePluginInit::get();
+function bookStorePlugin() {
+    return BookStorePluginInit::get();
 }
 
-examplePlugin();
+bookStorePlugin();
