@@ -61,7 +61,9 @@ class BookStorePluginInit extends Singleton {
              * Activation hooks
              */
             $this->application->onActivation(function () {
+                // Create database tables
                 $database = $this->application->get('database');
+                
                 if(!$database->schema()->hasTable('books_info')) {
                     $database->schema()->create('books_info', function ($table) {
                         $table->increments('id');
