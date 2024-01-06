@@ -36,7 +36,7 @@ class BookPostType {
      * Register the 'Book' custom post type.
      */
     public function registerBookPostType(): void {
-        $labels = array(
+        $labels = [
             'name'               => _x('Books', 'post type general name', 'bookstore-plugin'),
             'singular_name'      => _x('Book', 'post type singular name', 'bookstore-plugin'),
             'menu_name'          => _x('Books', 'admin menu', 'bookstore-plugin'),
@@ -51,9 +51,9 @@ class BookPostType {
             'parent_item_colon'  => __('Parent Books:', 'bookstore-plugin'),
             'not_found'          => __('No books found.', 'bookstore-plugin'),
             'not_found_in_trash' => __('No books found in Trash.', 'bookstore-plugin'),
-        );
+        ];
 
-        $args = array(
+        $args = [
             'labels'             => $labels,
             'public'             => true,
             'publicly_queryable' => true,
@@ -66,7 +66,7 @@ class BookPostType {
             'hierarchical'       => false,
             'menu_position'      => null,
             'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
-        );
+        ];
 
         register_post_type('book', $args);
     }
@@ -77,18 +77,18 @@ class BookPostType {
      */
     public function registerTaxonomies(): void {
         // Register Publisher taxonomy
-        register_taxonomy('publisher', 'book', array(
-            'label' => __('Publisher', 'bookstore-plugin'),
-            'rewrite' => array('slug' => 'publishers'),
+        register_taxonomy('publisher', 'book', [
+            'label'        => __('Publisher', 'bookstore-plugin'),
+            'rewrite'      => array('slug' => 'publishers'),
             'hierarchical' => true,
-        ));
+        ]);
 
         // Register Authors taxonomy
-        register_taxonomy('authors', 'book', array(
-            'label' => __('Authors', 'bookstore-plugin'),
-            'rewrite' => array('slug' => 'authors'),
+        register_taxonomy('authors', 'book', [
+            'label'        => __('Authors', 'bookstore-plugin'),
+            'rewrite'      => array('slug' => 'authors'),
             'hierarchical' => true,
-        ));
+        ]);
     }
 
 
@@ -99,7 +99,7 @@ class BookPostType {
         add_meta_box(
             'isbn_meta_box',
             __('ISBN Number', 'bookstore-plugin'),
-            array($this, 'renderISBNMetaBox'),
+            [$this, 'renderISBNMetaBox'],
             'book',
             'normal',
             'high'
@@ -135,9 +135,7 @@ class BookPostType {
 
             // Save it to post meta data
             update_post_meta($post_id, '_isbn', $isbn);
-            
-            // var_dump($this->booksInfoRepository);
-            
+
             // Save it into books_info table
             $data = ['post_id' => $post_id, 'isbn' => $isbn];
             $this->booksInfoRepository->updateOrCreate($data);

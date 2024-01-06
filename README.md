@@ -1,58 +1,52 @@
-# Example Plugin
+# Book Store WordPress Plugin
 
-[![Total Downloads](https://img.shields.io/packagist/dt/veronalabs/plugin.svg)](https://packagist.org/packages/veronalabs/plugin)
-[![Latest Stable Version](https://img.shields.io/packagist/v/veronalabs/plugin.svg)](https://packagist.org/packages/veronalabs/plugin)
+## Overview
 
-## About
+The Book Store WordPress Plugin is a custom plugin designed to manage and display book information within a WordPress environment. It leverages the Laravel Eloquent ORM for database interactions and provides an administration interface for managing book-related data.
 
-Example WordPress Plugin Based on [Rabbit Framework](https://github.com/veronalabs/rabbit)
+## Features
 
-## Requirements
+- Display a list of books in the WordPress admin panel.
+- Manage book information, including post ID, ISBN, created at, and updated at.
+- Responsive and user-friendly book listing table.
 
-1. PHP 7.4 or higher.
-2. Composer
-3. Docker (For wordpress sandbox with docker)
+## Installation
+
+1. Clone the repository to your WordPress plugins directory and navigate into the folder:
+
+    ```bash
+    git clone https://github.com/evokelektrique/veronalabs-book-store-wp-plugin.git wp-content/plugins/veronalabs-book-store-wp-plugin
+    ```
+
+2. Install the required PHP packages with `composer install`.
+3. Activate the plugin through the WordPress admin panel.
+4. Enjoy managing your book information through the WordPress admin interface.
 
 ## Usage
 
-```bash
-composer require veronalabs/plugin
-```
+1. Navigate to the "Books Info" menu in the WordPress admin panel.
+2. View and manage book information in the provided table.
+
+## Requirements
+
+- WordPress 5.0 or later.
+- PHP 7.4 or later.
+- MySQL
+- Docker (For [development](#development))
 
 ## Development
 
-If you are planning to add style to your plugin, make sure you have the following requirements:
-```bash
-node.js: <= v14.16.0
-npm: <= 6.14.11
-```
-
-And run these commands:
-
-**Install packages**
-```bash
-npm install
-```
-
-**Run the start command**
-```bash
-npm start
-// or
-npm run start
-```
-
 ### Docker
 
-Customized docker image with pdo_mysql extension installed to use eloquent utilities.
+1. Navigate to the root project directory.
+2. run `docker compose up -d` to run a WordPress instance with pdo_mysql extension installed.
+3. Open the browser and navigate to this url `http://localhost:8080`.
 
-`docker build -t custom-wordpress-8.1 ./.docker/`
+### Assets
 
-### Commands
+- Use `npm run dev` to watch and compile real time whenever anything changes.
+- Use `npm run build` to compile and minify the assets
 
-```
-"compile:scss" : Compiles scss files
-"postcss:autoprefixer": Parses your CSS and adds vendor prefixes
-"dev": Runs "compile:scss" and "postcss:autoprefixer" in a sequence
-"watch": Watches for changes in the /assets/src/scss/ folder and run "dev" command on every change
-"start": Runs "dev" and "watch" commands concurrently
-```
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.

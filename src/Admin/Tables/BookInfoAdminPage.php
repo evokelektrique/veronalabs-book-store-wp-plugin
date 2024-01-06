@@ -5,20 +5,23 @@ namespace BookStorePlugin\Admin\Tables;
 /**
  * Class BookInfoAdminPage
  *
+ * Handles the administration page for Books Info.
+ *
  * @package BookStorePlugin\Admin
  */
 class BookInfoAdminPage {
 
     /**
-     * Hook into the admin menu and page creation.
+     * Constructor for the BookInfoAdminPage class.
+     * Hooks into WordPress admin_menu and admin_enqueue_scripts actions.
      */
     public function __construct() {
-        add_action('admin_menu', array($this, 'addAdminMenu'));
-        add_action('admin_enqueue_scripts', array($this, 'enqueueAdminStyles'));
+        add_action('admin_menu', [$this, 'addAdminMenu']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueueAdminStyles']);
     }
 
     /**
-     * Add admin menu and page.
+     * Adds the Books Info menu page to the WordPress admin menu.
      */
     public function addAdminMenu(): void {
         add_menu_page(
@@ -26,53 +29,32 @@ class BookInfoAdminPage {
             __('Books Info', 'bookstore-plugin'),
             'manage_options',
             'books-info',
-            array($this, 'renderAdminPage'),
+            [$this, 'renderAdminPage'],
             'dashicons-book-alt'
         );
     }
 
     /**
-     * Enqueue admin styles.
+     * Enqueues the necessary admin styles for the WP_List_Table.
      */
     public function enqueueAdminStyles(): void {
         wp_enqueue_style('wp-list-table');
     }
 
     /**
-     * Render the admin page.
+     * Renders the Books Info admin page.
+     *
+     * Creates an instance of the WP_List_Table class, prepares items, and displays the table.
      */
     public function renderAdminPage(): void {
         // Create an instance of the WP_List_Table class
         $books_info_table = new BookInfoListTable();
 
-        // Fetch data from the books_info table
-        $data = $this->getBooksInfoData();
-
-        // Set the data for the table
-        $books_info_table->set_data($data);
+        // Prepare items for the table
+        $books_info_table->prepare_items();
 
         // Display the table
         $books_info_table->display();
-    }
-
-    /**
-     * Retrieve data from the books_info table.
-     *
-     * @return array
-     */
-    private function getBooksInfoData(): array {
-        global $wpdb;
-
-        // Replace 'books_info' with your actual table name
-        $table_name = $wpdb->prefix . 'books_info';
-
-        // Query to retrieve data from the table
-        $query = "SELECT * FROM $table_name";
-
-        // Fetch results
-        $data = $wpdb->get_results($query, ARRAY_A);
-
-        return $data;
     }
 }
 

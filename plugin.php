@@ -86,8 +86,6 @@ class BookStorePluginInit extends Singleton {
 
                 // Import functions
                 require_once __DIR__ . "/src/functions.php";
-
-                // var_dump($this->application->template('test', ['foo' => 'bar']));
             });
         } catch (\Exception $e) {
             /**
